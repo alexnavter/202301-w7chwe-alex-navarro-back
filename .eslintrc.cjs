@@ -7,8 +7,20 @@ module.exports = {
   overrides: [
     {
       extends: ["xo-typescript", "prettier"],
-      files: ["*.ts", "*.tsx"],
-      rules: {},
+      files: ["*.ts", "*.test.ts"],
+      rules: {
+        "@typescript-eslint/consistent-type-definitions": [
+          "error",
+          "interface",
+        ],
+        "@typescript-eslint/consistent-type-assertions": "off",
+      },
+    },
+    {
+      files: ["src/**/models/**/*.ts", "src/**/*.ts"],
+      rules: {
+        "@typescript-eslint/naming-convention": "off",
+      },
     },
   ],
   parserOptions: {
@@ -16,6 +28,7 @@ module.exports = {
     sourceType: "module",
   },
   rules: {
-    "no-implicit-coercion": "false", // Para convertir a número con +
+    "new-cap": ["error", { capIsNewExceptions: ["Router"] }],
+    "no-implicit-coercion": "off",
   },
 };
