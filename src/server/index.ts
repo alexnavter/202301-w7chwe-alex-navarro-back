@@ -1,11 +1,14 @@
 import express from "express";
+import morgan from "morgan";
+import cors from "cors";
+import { usersRouter } from "../routers/usersRouter.js";
 
-const app = express();
+export const app = express();
 
-const port = 4000;
+app.disable("x-powered-by");
 
-app.listen(port);
+app.use(morgan("dev"));
+app.use(express.json());
+app.use(cors());
 
-app.get("/", (req, res) => {
-  res.status(200).json({ pong: true });
-});
+app.use("/users", usersRouter);

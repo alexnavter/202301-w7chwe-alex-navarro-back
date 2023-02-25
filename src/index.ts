@@ -1,19 +1,12 @@
 import "./loadEnvironment.js";
-import morgan from "morgan";
 import express from "express";
-import cors from "cors";
 import connectDataBase from "./database/connectDatabase.js";
 import chalk from "chalk";
-import debug from "debug";
+import createDebug from "debug";
 import startServer from "./server/startServer.js";
 import mongoose from "mongoose";
 
-export const app = express();
-
-app.use(morgan("dev"));
-app.use(express.json());
-
-app.use(cors());
+const debug = createDebug("index:*");
 
 const port = process.env.PORT ?? 4000;
 const mongoDdUrl = process.env.MONGODB_CONNECTION_URL;

@@ -1,6 +1,6 @@
 import { type NextFunction, type Request, type Response } from "express";
-import { CustomError } from "../../CustomError/CustomError";
-import User from "../../database/models/User";
+import { CustomError } from "../../CustomError/CustomError.js";
+import User from "../../database/models/User.js";
 
 export const getUsers = async (
   req: Request,
@@ -15,7 +15,7 @@ export const getUsers = async (
     const customError = new CustomError(
       (error as Error).message,
       500,
-      "Couldn't retrieve robots."
+      "Couldn't retrieve users."
     );
 
     next(customError);
