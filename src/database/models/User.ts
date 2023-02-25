@@ -26,6 +26,6 @@ const userSchema = new Schema({
   },
 });
 
-const User = model("User", userSchema, "users-media");
+const User = model("User", userSchema, "users");
 
 export default User;
