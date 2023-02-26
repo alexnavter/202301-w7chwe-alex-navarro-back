@@ -5,6 +5,5 @@ export interface UserCredentials {
 
 export interface UserDetailsStructure extends UserCredentials {
   email: string;
-  about: string;
   avatar: string;
 }
