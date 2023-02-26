@@ -1,8 +1,8 @@
 import bcrypt from "bcrypt";
 import { type NextFunction, type Request, type Response } from "express";
-import { CustomError } from "../../CustomError/CustomError.js";
-import User from "../../database/models/User.js";
-import { type UserDetailsStructure } from "../types.js";
+import { CustomError } from "../../CustomError/CustomError";
+import User from "../../database/models/User";
+import { type UserDetailsStructure } from "../types";
 
 export const getUsers = async (
   req: Request,
@@ -33,10 +33,10 @@ export const registerUser = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { username, password, email, about } = req.body;
+  const { username, password, email } = req.body;
 
   try {
-    const avatar = req;
+    const avatar = req.file?.filename;
 
     const hashedPassword = await bcrypt.hash(password, 8);
 
@@ -44,7 +44,6 @@ export const registerUser = async (
       username,
       password: hashedPassword,
       email,
-      about,
       avatar,
     });
 
