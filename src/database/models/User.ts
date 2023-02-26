@@ -9,12 +9,17 @@ const userSchema = new Schema({
   password: {
     type: String,
     minLength: 8,
+    required: true,
   },
   email: {
     type: String,
+    unique: true,
+    required: true,
   },
   avatar: {
     type: String,
+    unique: true,
+    required: true,
   },
   relationship: {
     type: Object,
