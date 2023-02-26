@@ -1,8 +1,8 @@
 import bcrypt from "bcrypt";
 import { type NextFunction, type Request, type Response } from "express";
-import { CustomError } from "../../CustomError/CustomError";
-import User from "../../database/models/User";
-import { type UserDetailsStructure } from "../types";
+import { CustomError } from "../../CustomError/CustomError.js";
+import User from "../../database/models/User.js";
+import { type UserDetailsStructure } from "../types.js";
 
 export const getUsers = async (
   req: Request,
