@@ -1,5 +1,4 @@
 import "./loadEnvironment.js";
-import express from "express";
 import connectDataBase from "./database/connectDatabase.js";
 import chalk from "chalk";
 import createDebug from "debug";

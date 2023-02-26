@@ -13,10 +13,10 @@ const userSchema = new Schema({
   email: {
     type: String,
   },
-  avatar: {
+  about: {
     type: String,
   },
-  about: {
+  avatar: {
     type: String,
   },
   relationship: {
