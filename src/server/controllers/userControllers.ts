@@ -1,8 +1,13 @@
-import bcrypt from "bcrypt";
+// NUEVOS IMPORTS
+
+import bcrypt from "bcrypt"; // <
+import fs from "fs/promises"; // <
 import { type NextFunction, type Request, type Response } from "express";
 import { CustomError } from "../../CustomError/CustomError.js";
 import User from "../../database/models/User.js";
 import { type UserDetailsStructure } from "../types.js";
+import path from "path"; // <
+import { createClient } from "@supabase/supabase-js";
 
 export const getUsers = async (
   req: Request,
@@ -24,6 +29,12 @@ export const getUsers = async (
   }
 };
 
+const supabaseUrl = process.env.SUPABASE_URL!;
+const supabaseKey = process.env.SUPABASE_KEY!;
+const supabaseBucket = process.env.SUPABACE_BUCKET!;
+
+const supabase = createClient(supabaseUrl, supabaseKey);
+
 export const registerUser = async (
   req: Request<
     Record<string, unknown>,
@@ -33,21 +44,29 @@ export const registerUser = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { username, password, email } = req.body;
+  const userData = req.body;
 
   try {
-    const avatar = req.file?.filename;
+    const imageName = req.file?.filename;
 
-    const hashedPassword = await bcrypt.hash(password, 8);
+    const hashedPassword = await bcrypt.hash(userData.password, 8);
 
-    await User.create({
-      username,
+    const image = await fs.readFile(path.join("uploads", imageName!));
+
+    await supabase.storage.from(supabaseBucket).upload(imageName!, image); // Aquí añadiriamos el control del cache
+
+    const {
+      data: { publicUrl },
+    } = supabase.storage.from(supabaseBucket).getPublicUrl(imageName!);
+
+    const user = await User.create({
+      ...userData,
       password: hashedPassword,
-      email,
-      avatar,
+      avatar: imageName,
+      backupImage: publicUrl,
     });
 
-    res.status(201).json({ message: "User created succesfully " });
+    res.status(201).json({ user });
   } catch (error) {
     const customError = new CustomError(
       (error as Error).message,
