@@ -26,6 +26,11 @@ const userSchema = new Schema({
     friends: { type: Array },
     enemies: { type: Array },
   },
+  backupImage: {
+    // <-- Copia de seguridad
+    type: String,
+    required: true,
+  },
 });
 
 const User = model("User", userSchema, "users");
